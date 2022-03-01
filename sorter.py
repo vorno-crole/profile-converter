@@ -3,8 +3,8 @@ import re
 
 	# TODO
 
-FILENAME='Admin.profile-meta.csv'
-OUTPUT_FILE='output.csv'
+FILENAME='csvs/Admin.profile-meta.csv'
+OUTPUT_FILE='csvs/output.csv'
 
 # load csv file
 input_file = open(FILENAME, 'r')
@@ -49,37 +49,55 @@ for key in nodes:
 keys.sort()
 
 
-output = open(OUTPUT_FILE, "a")
+output = open(OUTPUT_FILE, "w")
 prior_item = ''
 prior_node_1kv = ''
 pattern = "\[(.*?)\]"
 
 
-for key in keys:
+for node in keys:
 	# TODO: sort nodes[key]
 
-	for item in nodes[key]:
+	for item in nodes[node]:
 
+		# Check for duplicate line
+		if prior_item == item:
+			print ("skipping dupe: "+item)
+			continue
 
-		if "[" in line:
-			# todo explode into key:values, get first key
+		# check for duplicate "node.key:value" (with diff values)
+		if "[" in item:
+			
+			# explode into key:values, get first key
 			key_values = re.search(pattern, item).group(1)
-			# print("kvs: " + key_values)
+			# print(key_values)
 
-			first_kv = key_values.split(',')[0]
-			# print("1st key/v: " + first_kv)
+			if node != 'layoutAssignments':
+				first_kv = key_values.split(',')[0]
+				# print("1st key/v: " + first_kv)
+			else:
+				first_kv = key_values
 
 			node_1kv = node + "." + first_kv
-			print("node_1kv: " + node_1kv)
+			# print("node_1kv: " + node_1kv)
 
-			quit()
+			if prior_node_1kv == node_1kv:
+				print ("Alert! dupe key collision:\n  "+item + "\n  "+prior_item)
+				# continue
 
 
-		if prior_item != item:
-			# print(item)
-			output.write(item)
-			output.write("\n")
-			prior_item = item
+		# print(item)
+		output.write(item)
+		output.write("\n")
+		prior_item = item
+		prior_node_1kv = node_1kv
+
+
+			# quit()
+
+
+
+
 
 
 
