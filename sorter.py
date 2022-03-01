@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import re
 
-	# TODO
+# TODO
 
 FILENAME='csvs/Admin.profile-meta.csv'
 OUTPUT_FILE='csvs/output.csv'
@@ -56,7 +56,7 @@ pattern = "\[(.*?)\]"
 
 
 for node in keys:
-	# TODO: sort nodes[key]
+	# sort nodes[key]
 
 	for item in nodes[node]:
 
@@ -93,43 +93,32 @@ for node in keys:
 		prior_node_1kv = node_1kv
 
 
-			# quit()
-
-
-
-
-
-
-
-# print (type(nodes['userLicense']))
-# print (type(nodes['classAccesses']))
-
-
+		# quit()
 
 output.close()
 
 
 
 
+# create output "sorted" csv file
+# for each node
+# load the node-file, in node alpha order
+
+# read node-file line by line
+
+# check for []s
+
+	# if []
+		# turn [] into dictionary
+		# sort dict on key
+		# output node
+		# output key values in key importance order
+
+	# if no []
+		# output node and value
 
 
 
-	# create output "sorted" csv file
-	# for each node
-	# load the node-file, in node alpha order
-
-	# read node-file line by line
-
-	# check for []s
-
-		# if []
-			# turn [] into dictionary
-			# sort dict on key
-			# output node
-			# output key values in key alpha order
-
-		# if no []
-			# output node and value
 
 
 
