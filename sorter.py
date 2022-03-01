@@ -7,12 +7,12 @@ FILENAME='csvs/Admin.profile-meta.csv'
 OUTPUT_FILE='csvs/output.csv'
 
 # load csv file
-input_file = open(FILENAME, 'r')
-Lines = input_file.readlines()
+f_input = open(FILENAME, 'r')
+Lines = f_input.readlines()
 
 nodes = {}
-
 count = 0
+
 for line in Lines:
 	count += 1
 	line = line.strip()
@@ -34,26 +34,26 @@ for line in Lines:
 
 	nodes[node].append(line)
 
-input_file.close()
+f_input.close()
 
 # print ("Dict size: {}".format(len(nodes)))
 
 keys = []
 
-for key in nodes:
-	# print(key)
-	keys.append(key)
+for node in nodes:
+	# print(node)
+	keys.append(node)
 
 # sort lines inside each file
 # sort keys
 keys.sort()
 
 
-output = open(OUTPUT_FILE, "w")
+f_output = open(OUTPUT_FILE, "w")
+
 prior_item = ''
 prior_node_1kv = ''
 pattern = "\[(.*?)\]"
-
 
 for node in keys:
 	# sort nodes[key]
@@ -62,7 +62,7 @@ for node in keys:
 
 		# Check for duplicate line
 		if prior_item == item:
-			print ("skipping dupe: "+item)
+			# print ("skipping dupe: "+item)
 			continue
 
 		# check for duplicate "node.key:value" (with diff values)
@@ -85,17 +85,14 @@ for node in keys:
 				print ("Alert! dupe key collision:\n  "+item + "\n  "+prior_item)
 				# continue
 
-
 		# print(item)
-		output.write(item)
-		output.write("\n")
+		f_output.write(item)
+		f_output.write("\n")
 		prior_item = item
 		prior_node_1kv = node_1kv
-
-
 		# quit()
 
-output.close()
+f_output.close()
 
 
 
