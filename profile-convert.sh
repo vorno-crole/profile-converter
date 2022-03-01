@@ -19,7 +19,7 @@
 	SHOW_MSGS="TRUE"
 	IN_FILE=""
 	OUT_FILE="outfile.csv"
-	XSL_FILE="vc/xml/transform-sorted.xsl"
+	XSL_FILE="transform-sorted.xsl"
 
 	title()
 	{
