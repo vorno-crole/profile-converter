@@ -4,7 +4,7 @@ import re
 # TODO
 
 FILENAME='csvs/Admin.profile-meta.csv'
-OUTPUT_FILE='csvs/output.csv'
+OUTPUT_FILE='csvs/filtered.csv'
 
 # load csv file
 f_input = open(FILENAME, 'r')
@@ -56,13 +56,14 @@ prior_node_1kv = ''
 pattern = "\[(.*?)\]"
 
 for node in keys:
-	# sort nodes[key]
+	# sort nodes[node]
+	nodes[node].sort()
 
 	for item in nodes[node]:
 
 		# Check for duplicate line
 		if prior_item == item:
-			# print ("skipping dupe: "+item)
+			# print ("* Skipping dupe: "+item)
 			continue
 
 		# check for duplicate "node.key:value" (with diff values)
@@ -82,7 +83,7 @@ for node in keys:
 			# print("node_1kv: " + node_1kv)
 
 			if prior_node_1kv == node_1kv:
-				print ("Alert! dupe key collision:\n  "+item + "\n  "+prior_item)
+				print ("* Alert! dupe key collision:\n  "+item + "\n  "+prior_item)
 				# continue
 
 		# print(item)
