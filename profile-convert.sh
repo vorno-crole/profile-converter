@@ -19,7 +19,7 @@
 	SHOW_MSGS="TRUE"
 	IN_FILE=""
 	OUT_FILE="outfile.csv"
-	XSL_FILE="transform-sorted.xsl"
+	XSL_FILE="$(dirname "$BASH_SOURCE")/transform-sorted.xsl"
 
 	title()
 	{
