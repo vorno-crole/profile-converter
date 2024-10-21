@@ -16,7 +16,8 @@ All from your SFDC folder
 profile-convert.sh 2csv --all
 
 for file in force-app/main/default/profileCSVs/*.csv; do
-    uniq $file $file
+    echo $file; 
+    uniq "$file" > "${file}2" && mv "${file}2" "$file"
 done
 
 profile-convert.sh 2xml --all

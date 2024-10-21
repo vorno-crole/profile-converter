@@ -92,6 +92,22 @@
 		</xsl:for-each>
 
 
+		<xsl:for-each select="sfdc:externalDataSourceAccesses">
+			<xsl:sort select="sfdc:name"/>
+			<xsl:value-of select="local-name()"/>
+			<xsl:text>[</xsl:text>
+
+				<xsl:value-of select="name(sfdc:externalDataSource)"/><xsl:text>:</xsl:text>
+				<xsl:value-of select="sfdc:externalDataSource"/><xsl:text>,</xsl:text>
+
+				<xsl:value-of select="name(sfdc:enabled)"/><xsl:text>:</xsl:text>
+				<xsl:value-of select="sfdc:enabled"/>
+
+			<xsl:text>]</xsl:text>
+			<xsl:text>&#xa;</xsl:text>
+		</xsl:for-each>
+
+
 		<xsl:for-each select="sfdc:fieldPermissions">
 			<xsl:sort select="sfdc:field"/>
 
