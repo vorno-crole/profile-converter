@@ -16,6 +16,7 @@
 	AUTHOR="vc@vaughancrole.com"
 
 	MODE=""
+	FILE_TYPE="Profile"
 	SHOW_MSGS="TRUE"
 	IN_FILE=""
 	OUT_FILE="outfile.csv"
@@ -74,6 +75,9 @@
 				   MODE="$mode2"
 				   unset mode2;;
 
+			--permset) FILE_TYPE="PermSet"
+					   XSL_FILE="$(dirname "$BASH_SOURCE")/transform-permSet-sorted.xsl";;
+
 			-h | --help) title
 						 usage
 						 exit 0;;
@@ -106,7 +110,8 @@
 # end setup
 
 msgs title
-msgs echo "Mode: ${WHT}${MODE}${RES}\n"
+msgs echo "Mode: ${WHT}${MODE}${RES}"
+msgs echo "File Type: ${WHT}${FILE_TYPE}${RES}\n"
 
 if [[ "$MODE" == "CSV" ]]; then
 	xsltproc $XSL_FILE "$IN_FILE" > "$OUT_FILE"
@@ -132,7 +137,17 @@ elif [[ "$MODE" == "XML" ]]; then
 	# Start writing out file....
 
 	echo '<?xml version="1.0" encoding="UTF-8"?>' > "${OUT_FILE}"
-	echo '<Profile xmlns="http://soap.sforce.com/2006/04/metadata">' >> "${OUT_FILE}"
+
+	if [[ $FILE_TYPE == "Profile" ]]; then
+		echo '<Profile xmlns="http://soap.sforce.com/2006/04/metadata">' >> "${OUT_FILE}"
+
+	elif [[ $FILE_TYPE == "PermSet" ]]; then
+		echo '<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">' >> "${OUT_FILE}"
+
+	else
+		echo "Error, unknown mode/type: $FILE_TYPE"
+		exit 1;
+	fi
 
 	INDENT="    "
 
@@ -183,7 +198,14 @@ elif [[ "$MODE" == "XML" ]]; then
 		fi
 	done < "${IN_FILE}"
 
-	echo '</Profile>' >> "${OUT_FILE}"
+
+	if [[ $FILE_TYPE == "Profile" ]]; then
+		echo '</Profile>' >> "${OUT_FILE}"
+
+	elif [[ $FILE_TYPE == "PermSet" ]]; then
+		echo '</PermissionSet>' >> "${OUT_FILE}"
+
+	fi
 
 
 elif [[ "$MODE" == "CSV-all" ]]; then
