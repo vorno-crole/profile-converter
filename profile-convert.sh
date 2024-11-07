@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+#/usr/local/bin/bash
+
 # Setup
 	# set -e
 	# set -o pipefail
@@ -122,7 +125,12 @@ elif [[ "$MODE" == "XML" ]]; then
 	{
 		local IFS=,
 		local WORD_LIST=($1)
-		for word in "${WORD_LIST[@]}"; do
+
+		# TODO: sort alphabetically
+		local IFS=$'\n' 
+		sorted=($(sort <<<"${WORD_LIST[*]}"))
+
+		for word in "${sorted[@]}"; do
 			echo "$word"
 		done
 	}
