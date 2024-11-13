@@ -39,7 +39,7 @@ rm "${SF_PROFILE}.csv"
 * Compare the Admin profile across two branches
 ```
 SF_PROFILE="force-app/main/default/profiles/Admin.profile-meta.xml"
-FILE="$(basename $SF_PROFILE)"
+FILE="$(basename $SF_PROFILE)" # Admin.profile-meta.xml
 SRC_BR="uat"
 DEST_BR="staging"
 
@@ -49,8 +49,8 @@ mkdir -p .vc-compare/${DEST_BR}
 git show ${SRC_BR}:${SF_PROFILE} > ".vc-compare/${SRC_BR}/${FILE}"
 git show ${DEST_BR}:${SF_PROFILE} > ".vc-compare/${DEST_BR}/${FILE}"
 
-profile-convert 2csv -i ".vc-compare/${SRC_BR}/${FILE}" -o ".vc-compare/${SRC_BR}/${FILE}.csv"
-profile-convert 2csv -i ".vc-compare/${DEST_BR}/${FILE}" -o ".vc-compare/${DEST_BR}/${FILE}.csv"
+profile-converter/profile-convert.sh 2csv -i ".vc-compare/${SRC_BR}/${FILE}" -o ".vc-compare/${SRC_BR}/${FILE}.csv"
+profile-converter/profile-convert.sh 2csv -i ".vc-compare/${DEST_BR}/${FILE}" -o ".vc-compare/${DEST_BR}/${FILE}.csv"
 
 # sort files
 sort -u -o ".vc-compare/${SRC_BR}/${FILE}.csv" ".vc-compare/${SRC_BR}/${FILE}.csv"
@@ -59,7 +59,7 @@ sort -u -o ".vc-compare/${DEST_BR}/${FILE}.csv" ".vc-compare/${DEST_BR}/${FILE}.
 code --diff ".vc-compare/${SRC_BR}/${FILE}.csv" ".vc-compare/${DEST_BR}/${FILE}.csv"
 
 # and then...
-# profile-convert 2xml -i ".vc-compare/${DEST_BR}/${FILE}.csv" -o "${SF_PROFILE}"
+# profile-converter/profile-convert.sh 2xml -i ".vc-compare/${DEST_BR}/${FILE}.csv" -o "${SF_PROFILE}"
 # rm -rf .vc-compare
 
 
