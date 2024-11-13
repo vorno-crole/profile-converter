@@ -23,7 +23,8 @@ done
 profile-convert.sh 2xml --all
 ```
 
-
+* Remove dupes in single file
+* Sort into alpha order
 ```
 SF_PROFILE="force-app/main/default/profiles/Admin.profile-meta.xml"
 
@@ -31,11 +32,11 @@ profile-converter 2csv -i "${SF_PROFILE}" -o "${SF_PROFILE}.csv"
 sort -u -o "${SF_PROFILE}.csv" "${SF_PROFILE}.csv"
 
 profile-converter 2xml -i "${SF_PROFILE}.csv" -o "${SF_PROFILE}"
-
 rm "${SF_PROFILE}.csv"
 
 ```
 
+* Compare the Admin profile across two branches
 ```
 SF_PROFILE="force-app/main/default/profiles/Admin.profile-meta.xml"
 FILE="$(basename $SF_PROFILE)"
