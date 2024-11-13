@@ -37,3 +37,26 @@ profile-converter 2xml -i "${SF_PROFILE}.csv" -o "${SF_PROFILE}"
 rm "${SF_PROFILE}.csv"
 
 ```
+
+```
+SF_PROFILE="force-app/main/default/profiles/Admin.profile-meta.xml"
+FILE="$(basename $SF_PROFILE)"
+SRC_BR="conn2-dev"
+DEST_BR="validation"
+
+mkdir -p .vc-compare/${SRC_BR}
+mkdir -p .vc-compare/${DEST_BR}
+
+git show ${SRC_BR}:${SF_PROFILE} > ".vc-compare/${SRC_BR}/${FILE}"
+git show ${DEST_BR}:${SF_PROFILE} > ".vc-compare/${DEST_BR}/${FILE}"
+
+profile-convert 2csv -i ".vc-compare/${SRC_BR}/${FILE}" -o ".vc-compare/${SRC_BR}/${FILE}.csv"
+profile-convert 2csv -i ".vc-compare/${DEST_BR}/${FILE}" -o ".vc-compare/${DEST_BR}/${FILE}.csv"
+
+# sort files
+sort -o ".vc-compare/${SRC_BR}/${FILE}.csv" ".vc-compare/${SRC_BR}/${FILE}.csv"
+sort -o ".vc-compare/${DEST_BR}/${FILE}.csv" ".vc-compare/${DEST_BR}/${FILE}.csv"
+
+code --diff ".vc-compare/${SRC_BR}/${FILE}.csv" ".vc-compare/${DEST_BR}/${FILE}.csv"
+
+```
