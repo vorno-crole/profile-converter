@@ -56,6 +56,20 @@
 		</xsl:for-each>
 
 
+		<xsl:for-each select="sfdc:hasActivationRequired">
+			<xsl:value-of select="local-name()"/><xsl:text>:</xsl:text>
+			<xsl:value-of select="text()"/>
+			<xsl:text>&#xa;</xsl:text>
+		</xsl:for-each>
+
+
+		<xsl:for-each select="sfdc:label">
+			<xsl:value-of select="local-name()"/><xsl:text>:</xsl:text>
+			<xsl:value-of select="text()"/>
+			<xsl:text>&#xa;</xsl:text>
+		</xsl:for-each>
+
+
 		<xsl:for-each select="sfdc:objectPermissions">
 			<xsl:sort select="sfdc:object"/>
 			<xsl:value-of select="local-name()"/>
@@ -96,23 +110,41 @@
 				<xsl:value-of select="sfdc:recordType"/><xsl:text>,</xsl:text>
 
 				<xsl:value-of select="name(sfdc:visible)"/><xsl:text>:</xsl:text>
-				<xsl:value-of select="sfdc:visible"/><xsl:text>,</xsl:text>
+				<xsl:value-of select="sfdc:visible"/>
 
 			<xsl:text>]</xsl:text>
 			<xsl:text>&#xa;</xsl:text>
 		</xsl:for-each>
 
 
-		<xsl:for-each select="sfdc:hasActivationRequired">
-			<xsl:value-of select="local-name()"/><xsl:text>:</xsl:text>
-			<xsl:value-of select="text()"/>
+		<xsl:for-each select="sfdc:tabSettings">
+			<xsl:sort select="sfdc:tab"/>
+			<xsl:value-of select="local-name()"/>
+			<xsl:text>[</xsl:text>
+
+				<xsl:value-of select="name(sfdc:tab)"/><xsl:text>:</xsl:text>
+				<xsl:value-of select="sfdc:tab"/><xsl:text>,</xsl:text>
+
+				<xsl:value-of select="name(sfdc:visibility)"/><xsl:text>:</xsl:text>
+				<xsl:value-of select="sfdc:visibility"/>
+
+			<xsl:text>]</xsl:text>
 			<xsl:text>&#xa;</xsl:text>
 		</xsl:for-each>
 
 
-		<xsl:for-each select="sfdc:label">
-			<xsl:value-of select="local-name()"/><xsl:text>:</xsl:text>
-			<xsl:value-of select="text()"/>
+		<xsl:for-each select="sfdc:userPermissions">
+			<xsl:sort select="sfdc:name"/>
+			<xsl:value-of select="local-name()"/>
+			<xsl:text>[</xsl:text>
+
+				<xsl:value-of select="name(sfdc:name)"/><xsl:text>:</xsl:text>
+				<xsl:value-of select="sfdc:name"/><xsl:text>,</xsl:text>
+
+				<xsl:value-of select="name(sfdc:enabled)"/><xsl:text>:</xsl:text>
+				<xsl:value-of select="sfdc:enabled"/>
+
+			<xsl:text>]</xsl:text>
 			<xsl:text>&#xa;</xsl:text>
 		</xsl:for-each>
 

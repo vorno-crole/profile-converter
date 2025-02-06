@@ -1,6 +1,3 @@
-#!/bin/bash
-
-
 #/usr/local/bin/bash
 
 # Setup
@@ -51,7 +48,7 @@
 			case $1 in
 				title) title;;
 
-				echo) echo -e $2;;
+				echo) shift; echo -e "$@";;
 			esac
 		fi
 	}
@@ -117,6 +114,7 @@ msgs echo "Mode: ${WHT}${MODE}${RES}"
 msgs echo "File Type: ${WHT}${FILE_TYPE}${RES}\n"
 
 if [[ "$MODE" == "CSV" ]]; then
+	# echo "xsltproc $XSL_FILE \"$IN_FILE\" > \"$OUT_FILE\"";
 	xsltproc $XSL_FILE "$IN_FILE" > "$OUT_FILE"
 
 elif [[ "$MODE" == "XML" ]]; then
@@ -144,6 +142,8 @@ elif [[ "$MODE" == "XML" ]]; then
 
 	# Start writing out file....
 
+	wc -l "${IN_FILE}"
+
 	echo '<?xml version="1.0" encoding="UTF-8"?>' > "${OUT_FILE}"
 
 	if [[ $FILE_TYPE == "Profile" ]]; then
@@ -161,7 +161,7 @@ elif [[ "$MODE" == "XML" ]]; then
 
 	# Read file, line by line
 	while IFS= read -r line; do
-
+		msgs echo -n " ."
 		# if no []
 		if [[ "$line" =~ .*"[".* ]]; then
 			# eg: applicationVisibilities[application:Claims_Complaints,default:false,visible:true]
@@ -205,6 +205,7 @@ elif [[ "$MODE" == "XML" ]]; then
 
 		fi
 	done < "${IN_FILE}"
+	msgs echo ""
 
 
 	if [[ $FILE_TYPE == "Profile" ]]; then
